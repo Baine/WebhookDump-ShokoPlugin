@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using Microsoft.Extensions.Logging;
 using Shoko.Abstractions.Config;
 using Shoko.Abstractions.Metadata;
@@ -32,7 +32,7 @@ public partial class DiscordService(
     var messageState = await cachedData.GetMessageStateAsync(video.ID).ConfigureAwait(false);
     if (messageState is null) return;
 
-    var posterStream = series.DefaultPoster?.GetStream();
+    var posterStream = series.PrimaryImage?.GetStream();
     try
     {
       var message = CreateMatchedWebhook(video, episode, series, posterStream is not null);

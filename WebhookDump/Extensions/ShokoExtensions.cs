@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using Shoko.Abstractions.Metadata;
 using Shoko.Abstractions.Metadata.Anidb;
 using Shoko.Abstractions.Video;
@@ -42,6 +42,6 @@ public static class ShokoExtensions
 
     public bool IsRestricted => anime.AnidbAnime?.Restricted ?? anime.ShokoSeries?.Restricted ?? false;
 
-    public DateTime? AirDate => anime.AnidbAnime?.AirDate ?? anime.ShokoSeries?.AirDate;
+    public DateTime? AirDate => anime.AnidbAnime?.AirDate?.ToDateTime() ?? anime.ShokoSeries?.AirDate?.ToDateTime();
   }
 }
