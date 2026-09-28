@@ -140,7 +140,8 @@ its backups.
 Older versions kept their own `WebhookDump.db` file in the plugin's configuration folder (or at the
 `Alternative Plugin Database Path`, if set). On the first start after upgrading, the plugin copies its entries into the
 new database, as long as the new database is still empty, and renames the old file to `WebhookDump.db.migrated`. The
-renamed file is not read again and can be deleted once you are happy with the upgrade.
+renamed file is not read again and can be deleted once you are happy with the upgrade. An old file that is not a
+SQLite database or is corrupt is renamed to `WebhookDump.db.unreadable` instead, without carrying anything over.
 
 # Build instructions
 

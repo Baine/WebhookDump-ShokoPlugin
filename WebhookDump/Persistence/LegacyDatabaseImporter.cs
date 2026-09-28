@@ -7,7 +7,8 @@ namespace Shoko.Plugin.WebhookDump.Persistence;
 
 /**
  * Carries the entries of the SQLite file the plugin kept its data in before it moved to the server's plugin database
- * over into the new database, once, and then renames the old file to "*.migrated".
+ * over into the new database, once, and then renames the old file to "*.migrated", or to "*.unreadable" when it is
+ * not a SQLite database or is corrupt.
  */
 public partial class LegacyDatabaseImporter(
   IDbContextFactory<WebhookDumpDbContext> contextFactory,
@@ -15,6 +16,12 @@ public partial class LegacyDatabaseImporter(
 )
 {
   private const string MigratedSuffix = ".migrated";
+  private const string UnreadableSuffix = ".unreadable";
+
+  // SQLITE_CORRUPT and SQLITE_NOTADB: the file will never be readable, unlike a busy or locked one.
+  private const int SqliteCorrupt = 11;
+  private const int SqliteNotADatabase = 26;
+
   private static readonly string[] SidecarSuffixes = ["-wal", "-shm"];
 
   public async Task ImportAsync(string legacyDbPath, CancellationToken cancellationToken = default)
@@ -30,7 +37,18 @@ public partial class LegacyDatabaseImporter(
       }
       else
       {
-        var entries = await ReadLegacyEntriesAsync(legacyDbPath, cancellationToken).ConfigureAwait(false);
+        List<WebhookDumpEntry> entries;
+        try
+        {
+          entries = await ReadLegacyEntriesAsync(legacyDbPath, cancellationToken).ConfigureAwait(false);
+        }
+        catch (SqliteException ex) when (ex.SqliteErrorCode is SqliteNotADatabase or SqliteCorrupt)
+        {
+          // Reading it again on the next start would fail the same way, so it is moved out of the way instead.
+          LogUnreadable(logger, ex, legacyDbPath);
+          MoveAside(legacyDbPath, UnreadableSuffix);
+          return;
+        }
 
         // One save is one transaction, so a failed carry-over leaves the new database empty and is tried again.
         context.Entries.AddRange(entries);
@@ -45,17 +63,22 @@ public partial class LegacyDatabaseImporter(
       return;
     }
 
+    MoveAside(legacyDbPath, MigratedSuffix);
+  }
+
+  private void MoveAside(string legacyDbPath, string suffix)
+  {
     try
     {
-      var migratedPath = GetMigratedPath(legacyDbPath);
-      File.Move(legacyDbPath, migratedPath);
-      foreach (var suffix in SidecarSuffixes)
+      var targetPath = GetTargetPath(legacyDbPath, suffix);
+      File.Move(legacyDbPath, targetPath);
+      foreach (var sidecarSuffix in SidecarSuffixes)
       {
-        if (File.Exists(legacyDbPath + suffix))
-          File.Move(legacyDbPath + suffix, migratedPath + suffix);
+        if (File.Exists(legacyDbPath + sidecarSuffix))
+          File.Move(legacyDbPath + sidecarSuffix, targetPath + sidecarSuffix);
       }
 
-      LogRenamed(logger, legacyDbPath, migratedPath);
+      LogRenamed(logger, legacyDbPath, targetPath);
     }
     catch (IOException ex)
     {
@@ -117,12 +140,12 @@ public partial class LegacyDatabaseImporter(
     return DateTime.UtcNow;
   }
 
-  private static string GetMigratedPath(string legacyDbPath)
+  private static string GetTargetPath(string legacyDbPath, string suffix)
   {
-    var migratedPath = legacyDbPath + MigratedSuffix;
-    return File.Exists(migratedPath)
-      ? $"{legacyDbPath}.{DateTime.UtcNow.ToString("yyyyMMddHHmmss", CultureInfo.InvariantCulture)}{MigratedSuffix}"
-      : migratedPath;
+    var targetPath = legacyDbPath + suffix;
+    return File.Exists(targetPath)
+      ? $"{legacyDbPath}.{DateTime.UtcNow.ToString("yyyyMMddHHmmss", CultureInfo.InvariantCulture)}{suffix}"
+      : targetPath;
   }
 
   private sealed class LegacyEntry
@@ -145,6 +168,10 @@ public partial class LegacyDatabaseImporter(
   [LoggerMessage(LogLevel.Error,
     "Failed to carry over the old plugin database \"{FilePath}\"; it was left in place and will be read again on the next start.")]
   static partial void LogFailedToImport(ILogger<LegacyDatabaseImporter> logger, Exception ex, string filePath);
+
+  [LoggerMessage(LogLevel.Error,
+    "The old plugin database \"{FilePath}\" is not a SQLite database or is corrupt, so nothing was carried over; it is kept with an \".unreadable\" suffix and can be deleted.")]
+  static partial void LogUnreadable(ILogger<LegacyDatabaseImporter> logger, Exception ex, string filePath);
 
   [LoggerMessage(LogLevel.Information, "Renamed the old plugin database \"{FilePath}\" to \"{MigratedPath}\".")]
   static partial void LogRenamed(ILogger<LegacyDatabaseImporter> logger, string filePath, string migratedPath);

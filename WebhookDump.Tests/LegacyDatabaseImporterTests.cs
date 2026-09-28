@@ -76,6 +76,23 @@ public class LegacyDatabaseImporterTests
   }
 
   [Fact]
+  public async Task Import_MovesAnUnreadableFileAside()
+  {
+    await using var database = await TestDatabase.CreateAsync();
+    var legacyPath = Path.Combine(database.Folder, "WebhookDump.db");
+    var contents = string.Concat(Enumerable.Repeat("this is not a SQLite database. ", 64));
+    await File.WriteAllTextAsync(legacyPath, contents, TestContext.Current.CancellationToken);
+
+    await CreateImporter(database).ImportAsync(legacyPath, TestContext.Current.CancellationToken);
+
+    Assert.False(File.Exists(legacyPath));
+    Assert.False(File.Exists(legacyPath + ".migrated"));
+    Assert.Equal(contents, await File.ReadAllTextAsync(legacyPath + ".unreadable", TestContext.Current.CancellationToken));
+    await using var context = database.CreateDbContext();
+    Assert.False(await context.Entries.AnyAsync(TestContext.Current.CancellationToken));
+  }
+
+  [Fact]
   public async Task Import_DoesNothingWithoutTheOldFile()
   {
     await using var database = await TestDatabase.CreateAsync();
