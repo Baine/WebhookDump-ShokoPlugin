@@ -27,6 +27,7 @@ public class PluginServiceRegistration : IPluginServiceRegistration
 
     serviceCollection
       .AddSingleton<CachedData>()
+      .AddSingleton<LegacyDatabaseImporter>()
       .AddSingleton<ICachedDataProxy, CachedDataProxy>()
       .AddSingleton<ICachedData>(sp => sp.GetRequiredService<ICachedDataProxy>())
       .AddSingleton<ShokoEventSubscriber>();

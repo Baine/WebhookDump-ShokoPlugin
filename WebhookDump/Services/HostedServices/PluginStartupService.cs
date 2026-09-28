@@ -1,7 +1,11 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Shoko.Abstractions.Config;
 using Shoko.Abstractions.Core.Events;
 using Shoko.Abstractions.Core.Services;
+using Shoko.Abstractions.Plugin;
+using Shoko.Abstractions.Utilities;
+using Shoko.Plugin.WebhookDump.Configurations;
 using Shoko.Plugin.WebhookDump.Persistence;
 using Shoko.Plugin.WebhookDump.Services.Events;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
@@ -9,9 +13,12 @@ using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 namespace Shoko.Plugin.WebhookDump.Services.HostedServices;
 
 public partial class PluginStartupService(
+  IApplicationPaths applicationPaths,
   ISystemService systemService,
   ICachedDataProxy cachedDataProxy,
   CachedData cachedData,
+  LegacyDatabaseImporter legacyDatabaseImporter,
+  ConfigurationProvider<PluginConfiguration> pluginConfigurationProvider,
   ILogger<PluginStartupService> logger,
   ShokoEventSubscriber shokoEventSubscriber,
   ShokoService shokoService
@@ -73,6 +80,8 @@ public partial class PluginStartupService(
   {
     try
     {
+      await legacyDatabaseImporter.ImportAsync(GetLegacyDatabasePath(), cancellationToken).ConfigureAwait(false);
+
       if (cachedDataProxy.TrySetDatabase(cachedData))
         LogDatabaseReady(logger);
       else
@@ -83,6 +92,25 @@ public partial class PluginStartupService(
       LogUnableToInit(logger, PluginNamespace);
       cachedDataProxy.TrySetException(ex);
     }
+  }
+
+  // Where the plugin kept its own SQLite file before it moved to the server's plugin database.
+  private string GetLegacyDatabasePath()
+  {
+    var pluginConfig = pluginConfigurationProvider.Load();
+    var pluginConfigDirectory = Path.Combine(
+      applicationPaths.ConfigurationsPath,
+      UuidUtility.GetV5(typeof(Plugin).FullName!).ToString()
+    );
+
+    var defaultDbPath = Path.Combine(pluginConfigDirectory, "WebhookDump.db");
+    var configuredPath = pluginConfig.AlternativePluginDatabasePath;
+
+    return string.IsNullOrWhiteSpace(configuredPath)
+      ? defaultDbPath
+      : Path.IsPathRooted(configuredPath)
+        ? configuredPath
+        : Path.Combine(pluginConfigDirectory, configuredPath);
   }
 
   #region LoggerMessages
