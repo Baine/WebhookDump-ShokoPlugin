@@ -29,7 +29,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.3" PrivateAssets="All"/>
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.12" PrivateAssets="All"/>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.3" PrivateAssets="All"/>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.3" PrivateAssets="All"/>
     <PackageReference Include="Shoko.Abstractions" Version="6.0.0-alpha.95" PrivateAssets="All"/>
