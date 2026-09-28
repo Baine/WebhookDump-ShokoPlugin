@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebhookDump", "WebhookDump\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebhookDump.Design", "WebhookDump.Design\WebhookDump.Design.csproj", "{70FE25B0-1BA4-4530-ADD3-F7A339132141}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebhookDump.Tests", "WebhookDump.Tests\WebhookDump.Tests.csproj", "{4579D622-54FB-494A-9146-E8A523D148A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{70FE25B0-1BA4-4530-ADD3-F7A339132141}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70FE25B0-1BA4-4530-ADD3-F7A339132141}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70FE25B0-1BA4-4530-ADD3-F7A339132141}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4579D622-54FB-494A-9146-E8A523D148A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4579D622-54FB-494A-9146-E8A523D148A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4579D622-54FB-494A-9146-E8A523D148A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4579D622-54FB-494A-9146-E8A523D148A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
