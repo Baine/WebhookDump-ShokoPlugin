@@ -15,16 +15,15 @@
     {
       "version": "2.0.3",
       "tag": "v2.0.3",
-      "source_revision": "d1df30b2cece6199195811ca0580d1ad15260c23",
-      "released_at": "2026-10-14T05:40:07Z",
+      "source_revision": "9bef75110085222c21edc57eeecf8935f86ff63f",
+      "released_at": "2026-10-14T05:41:50Z",
       "channel": "Stable",
-      "release_notes": "Update `Shoko.Abstractions` to `6.0.0-alpha.105` (based on revam's plugin-database work), add a Shoko plugin repository manifest, and take over maintenance until the original author returns.",
       "archives": [
         {
           "runtime": "any",
           "abstraction": "6.0.0",
           "url": "https://github.com/Baine/WebhookDump-ShokoPlugin/releases/download/v2.0.3/WebhookDump-v2.0.3-any.zip",
-          "checksum": "cc54e8e453196542bf3aa236bb598dd37f8df4bee89bb0df9ad8366187bbcfb5"
+          "checksum": "8fcb3b01555469bbd24527b05edca811d723f1f7eec8dec6c09e94a4609545c3"
         }
       ]
     }
