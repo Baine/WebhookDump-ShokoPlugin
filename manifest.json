@@ -15,15 +15,15 @@
     {
       "version": "2.0.3",
       "tag": "v2.0.3",
-      "source_revision": "9bef75110085222c21edc57eeecf8935f86ff63f",
-      "released_at": "2026-10-14T05:41:50Z",
+      "source_revision": "60c487074e6fad8ddc7a553c7a14a0eacea4387a",
+      "released_at": "2026-10-14T05:46:02Z",
       "channel": "Stable",
       "archives": [
         {
           "runtime": "any",
           "abstraction": "6.0.0",
           "url": "https://github.com/Baine/WebhookDump-ShokoPlugin/releases/download/v2.0.3/WebhookDump-v2.0.3-any.zip",
-          "checksum": "8fcb3b01555469bbd24527b05edca811d723f1f7eec8dec6c09e94a4609545c3"
+          "checksum": "192d0715182a7131f592967c0acd7013edaa9f178aa4102ed978a8eba9f943e5"
         }
       ]
     }
