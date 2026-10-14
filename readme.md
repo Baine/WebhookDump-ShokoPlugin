@@ -2,6 +2,11 @@
 This is a [Shoko](https://shokoanime.com/) plugin, originally built for my own convenience (so forgive me if anything doesn't
 make sense). It can do a few different things, all described in the [features](#features) section below.
 
+> [!IMPORTANT]
+> **This is a maintenance fork.** The original plugin is no longer actively maintained by its author, so this fork is
+> maintained by [@Baine](https://github.com/Baine) to keep it working with current Shoko Server releases.
+> Maintenance will be handed back to the original author as soon as they are able and willing to take it over again.
+
 >[!CAUTION]
 > AniDB maintains their own set of requirements on what files are permissible to add to their database.\
 > The detailed criteria for this can be found [here](https://wiki.anidb.net/Content:Files#What_is_accepted?).
@@ -93,8 +98,22 @@ After a file (previously unmatched) is matched, the previous message will be edi
 ---
 # Installation
 
+## From the Shoko plugin repository (recommended)
+
+This fork ships a [`manifest.json`](./manifest.json) that Shoko Server's plugin manager reads directly, so the plugin can
+be installed and updated from inside Shoko. The manifest is refreshed automatically whenever a release is published.
+
+1. In the Shoko Web UI, go to `Settings` -> `Plugins`.
+2. Add a new repository with the following details:
+   - **Name:** `WebhookDump (Baine fork)` (or anything you like)
+   - **URL:** `https://raw.githubusercontent.com/Baine/WebhookDump-ShokoPlugin/master/manifest.json`
+3. Shoko fetches the manifest and lists **WebhookDump** as an installable package — install it from there.
+4. Restart Shoko Server.
+
+## Manually
+
 1. Download `WebhookDump.dll` from the latest action/release (or follow the build instructions to create this)
-   - The latest GitHub actions can be found [here](https://github.com/fearnlj01/WebhookDump-ShokoPlugin/actions/workflows/dev-build.yml?query=branch%3Adev+is%3Asuccess).
+   - The latest GitHub actions can be found [here](https://github.com/Baine/WebhookDump-ShokoPlugin/actions/workflows/dev-build.yml?query=branch%3Adev+is%3Asuccess).
 The latest file should be available to download at the bottom of the page in an `Artifacts` section.
    - If there is no file available to download, please refer to the latest release or alternatively, build the plugin
 yourself.

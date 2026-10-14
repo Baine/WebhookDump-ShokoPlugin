@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>2.0.2</Version>
+    <Version>2.0.3</Version>
     <Title>WebhookDump</Title>
-    <Authors>fearnlj01</Authors>
-    <RepositoryUrl>https://github.com/fearnlj01/WebhookDump-ShokoPlugin/</RepositoryUrl>
-    <PackageLicenseUrl>https://github.com/fearnlj01/WebhookDump-ShokoPlugin/blob/master/LICENSE</PackageLicenseUrl>
+    <Authors>fearnlj01, Baine</Authors>
+    <RepositoryUrl>https://github.com/Baine/WebhookDump-ShokoPlugin/</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/Baine/WebhookDump-ShokoPlugin/blob/master/LICENSE</PackageLicenseUrl>
   </PropertyGroup>
 
   <PropertyGroup>

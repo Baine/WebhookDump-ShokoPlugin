@@ -1,0 +1,15 @@
+{
+  "$schema": "https://raw.githubusercontent.com/ShokoAnime/Shoko/master/Shoko.BuildTools/manifest.schema.json",
+  "id": "a005b76a-4ceb-5035-b757-3f390512a739",
+  "name": "WebhookDump",
+  "overview": "Automatically AVDumps unrecognised files, optionally sending a notification to Discord via a webhook.",
+  "authors": "fearnlj01, Baine",
+  "repository_url": "https://github.com/Baine/WebhookDump-ShokoPlugin",
+  "tags": [
+    "webhook",
+    "discord",
+    "avdump",
+    "automation"
+  ],
+  "releases": []
+}
