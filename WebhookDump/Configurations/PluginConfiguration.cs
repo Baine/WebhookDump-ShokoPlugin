@@ -9,7 +9,7 @@ namespace Shoko.Plugin.WebhookDump.Configurations;
 
 [Display(Name = "Webhook Dump", Description = "Configuration for the Webhook Dump plugin")]
 [Section(DisplaySectionType.Tab, DefaultSectionName = "Advanced", AppendFloatingSectionsAtEnd = true)]
-public class PluginConfiguration : IConfiguration
+public class PluginConfiguration : IPluginConfiguration
 {
   public AutomaticDumpingConfiguration AutomaticDumping { get; set; } = new();
   public AutomaticMatchConfiguration AutomaticMatching { get; set; } = new();
