@@ -35,7 +35,7 @@
     <PackageReference Include="Microting.EntityFrameworkCore.MySql" Version="10.0.11" ExcludeAssets="runtime" PrivateAssets="All"/>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.12" PrivateAssets="All"/>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.12" PrivateAssets="All"/>
-    <PackageReference Include="Shoko.Abstractions" Version="6.0.0-alpha.105" PrivateAssets="All"/>
+    <PackageReference Include="Shoko.Abstractions" Version="6.0.0-alpha.107" PrivateAssets="All"/>
   </ItemGroup>
 
   <Target Name="PluginAssemblyVersion" BeforeTargets="GetAssemblyVersion;GenerateAssemblyInfo" Condition="Exists('$(MSBuildProjectDirectory)/../.git') or Exists('$(MSBuildProjectDirectory)\..\.git')">
