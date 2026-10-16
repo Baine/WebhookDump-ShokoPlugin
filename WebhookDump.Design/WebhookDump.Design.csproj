@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../WebhookDump/WebhookDump.csproj"/>
-    <PackageReference Include="Shoko.Abstractions" Version="6.0.0-alpha.107"/>
+    <PackageReference Include="Shoko.Abstractions" Version="6.0.0-alpha.108"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.12"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.12"/>
     <PackageReference Include="Microting.EntityFrameworkCore.MySql" Version="10.0.11"/>
